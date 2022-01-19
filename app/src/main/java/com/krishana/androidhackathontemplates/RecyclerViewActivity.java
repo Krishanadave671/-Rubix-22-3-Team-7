@@ -37,6 +37,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_navigation_view);
+        bottomNavigationView.setSelectedItemId(R.id.nav_items);
         bottomNavigationView.setOnItemSelectedListener((NavigationBarView.OnItemSelectedListener)(new NavigationBarView.OnItemSelectedListener() {
             public final boolean onNavigationItemSelected(@NotNull MenuItem it) {
                 Intrinsics.checkNotNullParameter(it, "it");

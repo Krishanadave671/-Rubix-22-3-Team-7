@@ -1,6 +1,7 @@
 package com.krishana.androidhackathontemplates
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Build
@@ -49,28 +50,16 @@ class MainActivity : AppCompatActivity(){
     private lateinit var sliderHandle: Handler
     private lateinit var sliderRun :Runnable
 
-    private lateinit var bottomNav : BottomNavigationView
-    private lateinit var addBtn : FloatingActionButton
 
-    private val GONE_ = 1
-    private val VISIBLE_ = 0
-    var STATUS = VISIBLE_
+    @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        bottomNav = findViewById(R.id.bottom_navigation_view)
-        addBtn = findViewById(R.id.add_items)
-        if(STATUS == GONE_){
-            bottomNav.visibility = View.GONE
-            addBtn.visibility = View.GONE
-        }
-        else{
-            bottomNav.visibility = View.VISIBLE
-            addBtn.visibility = View.VISIBLE
-        }
 
         val bottomNavigationView : BottomNavigationView = findViewById(R.id.bottom_navigation_view)
+        bottomNavigationView.selectedItemId = R.id.nav_home
+
         bottomNavigationView.setOnItemSelectedListener {
             val destinationActivity  = when(it.itemId){
                 R.id.nav_items -> RecyclerViewActivity::class.java
@@ -107,11 +96,6 @@ class MainActivity : AppCompatActivity(){
         viewPagerImgSlider = findViewById(R.id.viewPagerImgSlider)
         loadrecyclerviewData()
 
-        val editText = findViewById<EditText>(R.id.editTextTextPersonName)
-        editText.setOnClickListener {
-            STATUS = GONE_
-            UpdateVisibility()
-        }
 
     }
 
@@ -196,22 +180,4 @@ class MainActivity : AppCompatActivity(){
 
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        if(STATUS == GONE_){
-            STATUS = VISIBLE_
-            UpdateVisibility()
-        }
-    }
-
-    fun UpdateVisibility(){
-        if(STATUS == GONE_){
-            bottomNav.visibility = View.GONE
-            addBtn.visibility = View.GONE
-        }
-        else{
-            bottomNav.visibility = View.VISIBLE
-            addBtn.visibility = View.VISIBLE
-        }
-    }
 }
