@@ -52,6 +52,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
                 Class destinationActivity = var10000;
                 if(it.getItemId()!=R.id.nav_items){
                     RecyclerViewActivity.this.startActivity(new Intent((Context)RecyclerViewActivity.this, destinationActivity));
+                    RecyclerViewActivity.this.overridePendingTransition(0,0);
 
                 }
                 return true;

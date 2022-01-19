@@ -48,9 +48,27 @@ class MainActivity : AppCompatActivity(){
     private lateinit var viewPagerImgSlider: ViewPager2
     private lateinit var sliderHandle: Handler
     private lateinit var sliderRun :Runnable
+
+    private lateinit var bottomNav : BottomNavigationView
+    private lateinit var addBtn : FloatingActionButton
+
+    private val GONE_ = 1
+    private val VISIBLE_ = 0
+    var STATUS = VISIBLE_
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        bottomNav = findViewById(R.id.bottom_navigation_view)
+        addBtn = findViewById(R.id.add_items)
+        if(STATUS == GONE_){
+            bottomNav.visibility = View.GONE
+            addBtn.visibility = View.GONE
+        }
+        else{
+            bottomNav.visibility = View.VISIBLE
+            addBtn.visibility = View.VISIBLE
+        }
 
         val bottomNavigationView : BottomNavigationView = findViewById(R.id.bottom_navigation_view)
         bottomNavigationView.setOnItemSelectedListener {
@@ -60,13 +78,17 @@ class MainActivity : AppCompatActivity(){
                 else -> MainActivity::class.java
             }
             if(it.itemId != R.id.nav_home){
-                startActivity(Intent(this,destinationActivity))
+                this.startActivity(Intent(this,destinationActivity))
+                this.overridePendingTransition(0,0)
             }
             true
         }
 
         val addButton = findViewById<FloatingActionButton>(R.id.add_items)
-        addButton.setOnClickListener { startActivity(Intent(this,FireBaseActivity::class.java)) }
+        addButton.setOnClickListener {
+            this.startActivity(Intent(this,FireBaseActivity::class.java))
+//            this.overridePendingTransition(0,0)
+        }
 
         drawerLayout = findViewById(R.id.drawer_layout)
         val navView = findViewById<NavigationView>(R.id.nav_view)
@@ -85,12 +107,12 @@ class MainActivity : AppCompatActivity(){
         viewPagerImgSlider = findViewById(R.id.viewPagerImgSlider)
         loadrecyclerviewData()
 
-//        val abcd = findViewById<EditText>(R.id.editTextTextPersonName)
-//        abcd.setOnClickListener{
-//            val a = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
-//            a.visibility = View.INVISIBLE
-//
-//        }
+        val editText = findViewById<EditText>(R.id.editTextTextPersonName)
+        editText.setOnClickListener {
+            STATUS = GONE_
+            UpdateVisibility()
+        }
+
     }
 
 
@@ -172,5 +194,24 @@ class MainActivity : AppCompatActivity(){
         val requestQueue = Volley.newRequestQueue(this)
         requestQueue.add(stringRequest)
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if(STATUS == GONE_){
+            STATUS = VISIBLE_
+            UpdateVisibility()
+        }
+    }
+
+    fun UpdateVisibility(){
+        if(STATUS == GONE_){
+            bottomNav.visibility = View.GONE
+            addBtn.visibility = View.GONE
+        }
+        else{
+            bottomNav.visibility = View.VISIBLE
+            addBtn.visibility = View.VISIBLE
+        }
     }
 }
